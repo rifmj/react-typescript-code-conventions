@@ -98,63 +98,76 @@
 ## Стилизация
 
 * Общее правильно при стилизации - отделяем View от стилей. CSS-in-JS спорно, так как для этого необходимо отказаться от типичного подхода к стилизации компонентов, что добавляет сложности системе.
-* Стили компонентов находятся в файле Component.styles.module.css. 
+* Стили компонентов находятся в файле Component.styles.module.css.
 * Для удобства темизации компонентов и их большей гибкости в root-стиле компонента определяем глобальные для него CSS-variables. Такой подход в стилизации позволит переиспользовать компоненты между продуктами системы; при этом базовая версия компонента внутри системы может отличаться от базовой глобальной, чтобы соответстовать айдентике конкретного продукта.
 
-		.inner {
-		  --button-color: palevioletred;
-		  --button-text-color: var(--button-color);
-		  --button-border-color: var(--button-color);
-		  --button-padding: 0.25em 1em;
-		  --button-font-size: 1em;
-		  --button-border-radius: 3px;
-		  --button-border: 2px solid var(--button-border-color);
-			
-		  display: inline-block;
-		  border-radius: var(--button-border-radius);
-		  font-size: var(--button-font-size);
-		  padding: var(--button-padding);
-		  border: var(--button-border);
-		  color: var(--button-text-color);
-		}
-		
+	  	.inner {
+	  	  --button-color: palevioletred;
+	  	  --button-text-color: var(--button-color);
+	  	  --button-border-color: var(--button-color);
+	  	  --button-padding: 0.25em 1em;
+	  	  --button-font-size: 1em;
+	  	  --button-border-radius: 3px;
+	  	  --button-border: 2px solid var(--button-border-color);
+	  		
+	  	  display: inline-block;
+	  	  border-radius: var(--button-border-radius);
+	  	  font-size: var(--button-font-size);
+	  	  padding: var(--button-padding);
+	  	  border: var(--button-border);
+	  	  color: var(--button-text-color);
+	  	}
+
 * Если в рамках одной страницы необходимо использовать несколько разных тем, то они оборачиваются в новый ThemeContext - div, с переопределением глобальных стилей (в импортируем className нужные стили перезаписываются)
 * Если в компонент необходимо добавить дополнительные варианты внешнего вида (variant), то просто перезаписываем Local CSS-variables компонента, не добавляя/заменяя стилей.
 
-		&.primary {
-			--button-color: var(--global-color-primary);
-		}
+	  	&.primary {
+	  		--button-color: var(--global-color-primary);
+	  	}
 
-* Компоненты могут отдельно экспортировать свои варианты. При этом экспортируемый компонент в сигнатуре должен содержать Omit<P, "variant">.
+* Компоненты могут отдельно экспортировать свои варианты *e.g. PrimaryButton для Button*. При этом экспортируемый компонент должен содержать сигнатуре Omit<P, "variant">.
 
-		const DangerButton: React.FC<Omit<ButtonProps, "variant">> = ({
-		  children,
-		}: {
-		  children: React.ReactNode;
-		}) => {
-		  return <Button className={css.dangerButton}>{children}</Button>;
-		};
+	  	const DangerButton: React.FC<Omit<ButtonProps, "variant">> = ({
+	  	  children,
+	  	}: {
+	  	  children: React.ReactNode;
+	  	}) => {
+	  	  return <Button className={css.dangerButton}>{children}</Button>;
+	  	};
 
 * Global CSS-variables должны иметь префикс global, *e.g. --global-color-pirmary*
 * Компоненты могут использовать глобальные переменные в определении локальных
-		
-		--button-color: var(--global-color-primary);
-		
-* Для версионирования компонентов можно использовать Lerna/Abstract/Bit (?)	
+
+  		--button-color: var(--global-color-primary);
+
+* Для версионирования компонентов можно использовать Lerna/Abstract/Bit (?)
 
 ### Atomic Design
 
-* Atom - Color, Opacity, Spacing, Typography (text, headings), Animation, HTML-тег *e.g. Button, --global-opacity-disabled: .5*. Атомы - отдельные html-теги и css-variables. 
+* Atom - Color, Opacity, Spacing, Typography (text, headings), Animation, HTML-тег *e.g. Button, --global-opacity-disabled: .5*. Атомы - отдельные html-теги и css-variables.
 * Molecule - *e.g. Field - div(label,input)*
 * Organism - *e.g. UserRegistrationForm - form(Field,Button)*
-* Template - начинаем добавлять контекст, прокидываем контекст в дочерние сущности (в molecules, organisms)
+* Template - начинаем добавлять контекст, прокидываем контекст в дочерние сущности в виде Props (в molecules, organisms)
 * Page - используется для Layout'инга *e.g. отображаем разные версии Header для страницы Dashboard и UserProfile* [why?](https://github.com/diegohaz/arc/issues/20#issuecomment-265934388)
 
 В TCS предлагается сделать промежуточную сущность - Base organism -> Product -> Unique organism. Это позволяет менять внешний вид организмов в зависимости от продукта.
 
+### Accessibility
+
+В качестве основы для создания Accessible компонентов (Atom и Molecule) может использоваться библиотека Reakit. 
+
+* Следует стандарту WAI-ARIA1.1
+* По дефолту компоненты нестилизованы
+* Можно использовать отдельные компоненты без импортирования всей библиотеки (с Tree Shaking)
+
 ### Примеры UI-kit
 
 * Библиотека компонентов [ivi](https://design.ivi.ru/components/)
+
+### Полезные ссылки
+
+* Чек-лист для создания дизайна/сборки ui-kit'а [здесь](https://www.checklist.design/)
+* Каталог российских компонентных [систем](http://designsystemsclub.ru/)
 
 # Используемые библиотеки
 
