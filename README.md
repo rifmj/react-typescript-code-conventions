@@ -57,42 +57,43 @@
 
 # Структура приложения
 
-## Структура директории src:
-### core - ядро React Web
+	## Структура директории src:
+	### core - ядро React Web
 
-* = components
-* == Router - система роутинга
-* = constants
-* == routes - описание маршрутов приложения
-* == hooks - браузерные хуки
+	* = components
+	* == Router - система роутинга
+	* = constants
+	* == routes - описание маршрутов приложения
+	* == hooks - браузерные хуки
 
-### modules - модули
+	### modules - модули
 
-### sdk - основное API, сервисы
-* = contexts - Глобальные Contexts
-* == AppContext - Основной Context, оборачиваем все приложение
-* === AppContext::logger - сервис логирования
-* == RealtimeContext - Контекст для WebSocket
-* = exceptions - Кастомные исключения
-* = hooks - Глобальные хуки, должны шэриться между платформами (react/react native)
-* = services - Сервисы, должны шэриться между платформами и быть фрэймворк-независимыми
-* == api - Взаимодействие с API
-* == http - Сервис HTTP-запросов (based on Axios)
-* == log - Логирование
-* == ws - Realtime-соединения
+	### sdk - основное API, сервисы
+	* = contexts - Глобальные Contexts
+	* == AppContext - Основной Context, оборачиваем все приложение
+	* === AppContext::logger - сервис логирования
+	* == RealtimeContext - Контекст для WebSocket
+	* = exceptions - Кастомные исключения
+	* = hooks - Глобальные хуки, должны шэриться между платформами (react/react native)
+	* = services - Сервисы, должны шэриться между платформами и быть фрэймворк-независимыми
+	* == api - Взаимодействие с API
+	* == http - Сервис HTTP-запросов (based on Axios)
+	* == log - Логирование
+	* == ws - Realtime-соединения
 
-### styles - глобальные стили и SCSS-переменные
-* = variables.scss - глобальные стили для импорта
-  ui - библиотека ui-компонентов
+	### styles - глобальные стили и SCSS-переменные
+	* = variables.scss - глобальные стили для импорта
+	  ui - библиотека ui-компонентов
 
 ## Структура типичного компонента
-* ./Component
-* Component.stories.mdx
-* Component.styles.module.scss
-* Component.types.ts
-* Component.utils.ts
-* Component.tsx
-* index.ts
+
+	* ./Component
+	* Component.stories.mdx
+	* Component.styles.module.scss
+	* Component.types.ts
+	* Component.utils.ts
+	* Component.tsx
+	* index.ts
 
 ## Стилизация
 
