@@ -140,6 +140,20 @@
 		
 * Для версионирования компонентов можно использовать Lerna/Abstract/Bit (?)	
 
+### Atomic Design
+
+* Atom - Color, Opacity, Spacing, Typography (text, headings), Animation, HTML-тег *e.g. Button, --global-opacity-disabled: .5*. Атомы - отдельные html-теги и css-variables. 
+* Molecule - *e.g. Field - div(label,input)*
+* Organism - *e.g. UserRegistrationForm - form(Field,Button)*
+* Template - начинаем добавлять контекст, прокидываем контекст в дочерние сущности (в molecules, organisms)
+* Page - используется для Layout'инга *e.g. отображаем разные версии Header для страницы Dashboard и UserProfile* [why?](https://github.com/diegohaz/arc/issues/20#issuecomment-265934388)
+
+В TCS предлагается сделать промежуточную сущность - Base organism -> Product -> Unique organism. Это позволяет менять внешний вид организмов в зависимости от продукта.
+
+### Примеры UI-kit
+
+* Библиотека компонентов [ivi](https://design.ivi.ru/components/)
+
 # Используемые библиотеки
 
 * **Jest** - модульное тестирование и тестирование React-компонентов
