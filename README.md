@@ -94,6 +94,52 @@
 * Component.tsx
 * index.ts
 
+## Стилизация
+
+* Общее правильно при стилизации - отделяем View от стилей. CSS-in-JS спорно, так как для этого необходимо отказаться от типичного подхода к стилизации компонентов, что добавляет сложности системе.
+* Стили компонентов находятся в файле Component.styles.module.css. 
+* Для удобства темизации компонентов и их большей гибкости в root-стиле компонента определяем глобальные для него CSS-variables. Такой подход в стилизации позволит переиспользовать компоненты между продуктами системы; при этом базовая версия компонента внутри системы может отличаться от базовой глобальной, чтобы соответстовать айдентике конкретного продукта.
+
+		.inner {
+		  --button-color: palevioletred;
+		  --button-text-color: var(--button-color);
+		  --button-border-color: var(--button-color);
+		  --button-padding: 0.25em 1em;
+		  --button-font-size: 1em;
+		  --button-border-radius: 3px;
+		  --button-border: 2px solid var(--button-border-color);
+			
+		  display: inline-block;
+		  border-radius: var(--button-border-radius);
+		  font-size: var(--button-font-size);
+		  padding: var(--button-padding);
+		  border: var(--button-border);
+		  color: var(--button-text-color);
+		}
+		
+* Если в компонент необходимо добавить дополнительные варианты внешнего вида (variant), то просто перезаписываем Local CSS-variables компонента, не добавляя/заменяя стилей.
+
+		&.primary {
+			--button-color: var(--global-color-primary);
+		}
+
+* Компоненты могут отдельно экспортировать свои варианты. При этом экспортируемый компонент в сигнатуре должен содержать Omit<P, "variant">.
+
+		const DangerButton: React.FC<Omit<ButtonProps, "variant">> = ({
+		  children,
+		}: {
+		  children: React.ReactNode;
+		}) => {
+		  return <Button className={css.dangerButton}>{children}</Button>;
+		};
+
+* Global CSS-variables должны иметь префикс global, *e.g. --global-color-pirmary*
+* Компоненты могут использовать глобальные переменные в определении локальных
+		
+		--button-color: var(--global-color-primary);
+		
+* Для версионирования компонентов можно использовать Lerna/Abstract/Bit (?)	
+
 # Используемые библиотеки
 
 * **Jest** - модульное тестирование и тестирование React-компонентов
