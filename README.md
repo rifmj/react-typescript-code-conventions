@@ -183,6 +183,10 @@
 * **i18next** - переводы, интернационализация
 * **date-fns/date.io** - работа с датами
 
+### Линтинг
+
+* ESLint, Prettier config for react/typescript app - [здесь](https://brygrill.medium.com/create-react-app-with-typescript-eslint-prettier-and-github-actions-f3ce6a571c97)
+
 ### Альтернативные библиотеки
 
 Библиотеки, которые можно использовать в зависимости от поставленных задач
